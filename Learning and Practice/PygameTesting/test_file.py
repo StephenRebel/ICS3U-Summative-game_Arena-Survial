@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 #Main game setup
@@ -8,6 +9,7 @@ size = (1080, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("My First Game")
 clock = pygame.time.Clock()
+font = pygame.font.SysFont('Comic Sans MS', 30)
 
 #Make Variables
 BLACK = ( 0, 0, 0)
@@ -16,23 +18,22 @@ BLUE = ( 0, 0, 225)
 RED = ( 255, 0, 0)
 BROWN = (210, 105, 30)
 
-x1, y1, width1, height1 = 50, 50, 64, 64
-x2, y2, width2, height2 = 150, 150, 20, 20
-x, y, shootwidth, shootheight, shootdistance, shootdirection = -10, -10, 15, 5, [-10, -10], 0
+x1, y1, width1, height1, oldx1, oldy1 = 50, 50, 64, 64, 50, 50
+x2, y2, width2, height2, oldx2, oldy2 = 150, 150, 20, 20, 150, 150
+x, y, shootwidth, shootheight, shootdirection = -10, -10, 15, 5, 0
 p1face, p2face = 0, 0
-
+point = 0
 can_shoot = False
 
 #Draw things on screen procedure
 def draw_objects():
-
     new_char1 = pygame.transform.rotate(char1, p1face)
-
     screen.blit(bg, (0, 0))
     screen.blit(new_char1, (x1, y1))
-    #pygame.draw.rect(screen, BLUE, (x1, y1, width1, height1))
     pygame.draw.rect(screen, RED, (x2, y2, width2, height2))
     pygame.draw.rect(screen, BLACK, (x, y, shootwidth, shootheight))
+    text = font.render(str(point), True, BLACK)
+    screen.blit(text, (100 , 100))
     pygame.display.update()
 
 #Main Loop
@@ -50,6 +51,7 @@ while carryOn:
     keys = pygame.key.get_pressed()
 
     #Movement for both players
+    oldx1, oldy1, oldx2, oldy2 = x1, y1, x2, y2
     if keys[pygame.K_LEFT]:
         p1face = 90
         if x1 - 1 <= 0:
@@ -99,20 +101,22 @@ while carryOn:
             y2 = size[1] - height2
         else: 
             y2 += 1
+    #Auto moving AI
     else:
         if (x2 + width2 / 2) - (x1 + width1 / 2) > 0:
-            x2 -= 0.5
+            x2 -= 1
         elif (x2 + width2 / 2) - (x1 + width1 / 2) < 0:
-            x2 += 0.5
+            x2 += 1
         if (y2 + height2 / 2) - (y1 + height1 / 2) > 0:
-            y2 -= 0.5
+            y2 -= 1
         elif (y2 + height2 / 2) - (y1 + height1 / 2) < 0:
-            y2 += 0.5
+            y2 += 1
 
+    #Detects if there should be a bullet
     if keys[pygame.K_SPACE]:
         if can_shoot == False:
             can_shoot = True
-            x, y, = x1 + width1 / 2, y1 + height1 / 2 - shootheight / 2
+            x, y, = int(x1 + width1 / 2), int(y1 + height1 / 2 - shootheight / 2)
             if p1face == 90:
                 shootdirection = 2
                 shootwidth = 15
@@ -130,6 +134,7 @@ while carryOn:
                 shootwidth = 5
                 shootheight = 15
     
+    #Controls direction of bullet
     if can_shoot == True:
         if shootdirection == 2:
             if x > -15:
@@ -151,7 +156,24 @@ while carryOn:
                 y += 10
             else:
                 can_shoot = False
-                
+
+    #Collision between two characters
+    for x1pos in range(x1, x1 + width1):
+        if x2 + width2 >= x1pos >= x2:
+            for y1pos in range(y1, y1 + height1):
+                if y2 + height2 >= y1pos >= y2:
+                    x1, y1, x2, y2 = oldx1, oldy1, oldx2, oldy2
+
+    #Collision between character 2 and bullet
+    for shootxpos in range(x, x + shootwidth):
+        if x2 + width2 >= shootxpos >= x2:
+            for shootypos in range(y, y + shootheight):
+                if y2 + height2 >= shootypos >= y2:
+                    x, y = -15, -15
+                    x2, y2 = random.randrange(width2, size[0] - width2), random.randrange(height2, size[1] - height2)
+                    can_shoot = False
+                    point += 1
+
     draw_objects()
 #Once we have exited the main program loop we can stop the game engine:
 pygame.quit()
