@@ -3,13 +3,16 @@ import random
 pygame.init()
 
 #Main game setup
-bg = pygame.image.load('Learning and Practice/PygameTesting/bg.jpg')
-char1 = pygame.image.load('Learning and Practice/PygameTesting/char1.png')
+bg = pygame.image.load('Learning and Practice/PygameTesting/Images/bg.jpg')
+char1 = pygame.image.load('Learning and Practice/PygameTesting/Images/char1.png')
 size = (1080, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("My First Game")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont('Arial', 30)
+effect1 = pygame.mixer.Sound('Learning and Practice/PygameTesting/Sounds/randomsound.wav')
+effect2 = pygame.mixer.Sound('Learning and Practice/PygameTesting/Sounds/soundeffect.wav')
+pygame.mixer.music.load('Learning and Practice/PygameTesting/Sounds/musictest.mp3')
 
 #Make Variables
 BLACK = ( 0, 0, 0)
@@ -39,6 +42,7 @@ def draw_objects():
     pygame.display.update()
 
 #Main Loop
+pygame.mixer.music.play(-1)
 carryOn = True
 while carryOn:
 
@@ -77,7 +81,7 @@ while carryOn:
         if y1 + 1 >= size[1] - height1:
             y1 = size[1] - height1
         else: 
-            y1 += 1
+            y1 += 2
 
     if keys[pygame.K_a]:
         p2face = 1
@@ -167,7 +171,9 @@ while carryOn:
                     #x1, y1, x2, y2 = oldx1, oldy1, oldx2, oldy2
                     point2 += 1
                     x1, y1 = random.randrange(width1, size[0] - width1), random.randrange(height1, size[1] - height1)
+                    effect1.play()
                     break
+            break
 
     #Collision between character 2 and bullet
     for shootxpos in range(x, x + shootwidth):
@@ -176,8 +182,11 @@ while carryOn:
                 if y2 + height2 >= shootypos >= y2:
                     x, y = -15, -15
                     x2, y2 = random.randrange(width2, size[0] - width2), random.randrange(height2, size[1] - height2)
+                    effect2.play()
                     can_shoot = False
                     point1 += 1
+                    break
+            break
 
     draw_objects()
 #Once we have exited the main program loop we can stop the game engine:
