@@ -1,0 +1,10 @@
+
+*.h
+*.pyc
+*.pyc
+venv/Lib/site-packages/astroid/__pycache__/__init__.cpython-38.pyc
+*.pyc
+venv/Lib/site-packages/__pycache__/six.cpython-38.pyc
+*.pyc
+venv/Lib/site-packages/__pycache__/six.cpython-38.pyc
+venv/Lib/site-packages/astroid/__pycache__/__pkginfo__.cpython-38.pyc

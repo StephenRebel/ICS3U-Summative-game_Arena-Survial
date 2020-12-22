@@ -2,6 +2,7 @@ import pygame
 import random
 pygame.init()
 
+
 # Draw things on screen procedure
 def draw_objects(restart):
     new_char1 = pygame.transform.rotate(char1, p1face)
