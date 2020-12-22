@@ -125,32 +125,15 @@ while restart == True:
                 y2 += 3
         # Auto moving AI
         else:
-            if (x2 + width2 / 2) - (x1 + width1 / 2) == 0:
-                slope = 0.01
-            else:
-                slope = abs(((y2 + height2 / 2) - (y1 + height1 / 2)) / ((x2 + width2 / 2) - (x1 + width1 / 2)))
-            if slope < 1:
-                if (x2 + width2 / 2) - (x1 + width1 / 2) > 0:
-                    x2 -= 1.5
-                elif (x2 + width2 / 2) - (x1 + width1 / 2) < 0:
-                    x2 += 1.5
-                if (y2 + height2 / 2) - (y1 + height1 / 2) > 0:
-                    y2 -= slope * 1.5
-                elif (y2 + height2 / 2) - (y1 + height1 / 2) < 0:
-                    y2 += slope * 1.5
-            else:
-                if (y2 + height2 / 2) - (y1 + height1 / 2) == 0:
-                    slope = 0.01
-                else:
-                    slope = abs(((x2 + width2 / 2) - (x1 + width1 / 2)) / ((y2 + height2 / 2) - (y1 + height1 / 2)))             
-                if (x2 + width2 / 2) - (x1 + width1 / 2) > 0:
-                    x2 -= slope * 1.5
-                elif (x2 + width2 / 2) - (x1 + width1 / 2) < 0:
-                    x2 += slope * 1.5
-                if (y2 + height2 / 2) - (y1 + height1 / 2) > 0:
-                    y2 -= 1.5
-                elif (y2 + height2 / 2) - (y1 + height1 / 2) < 0:
-                    y2 += 1.5
+            if (x2 + width2 / 2) - (x1 + width1 / 2) > 0:
+                x2 -= 1
+            elif (x2 + width2 / 2) - (x1 + width1 / 2) < 0:
+                x2 += 1
+            if (y2 + height2 / 2) - (y1 + height1 / 2) > 0:
+                y2 -= 1
+            elif (y2 + height2 / 2) - (y1 + height1 / 2) < 0:
+                y2 += 1
+
         # Detects if there should be a bullet
         if keys[pygame.K_SPACE]:
             if can_shoot == False:
