@@ -6,7 +6,7 @@ from menu_test import main_menu
 window = 0
 main_menu()
 
-background = pygame.image.load("./Images/GameBackground.jpg")
+background = pygame.image.load("Learning and Practice/PygameTesting/Images/GameBackground.jpg")
 BLACK = (0, 0, 0)
 font = pygame.font.SysFont("cambria", 40)
 res = (1280, 720)
